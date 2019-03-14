@@ -314,7 +314,7 @@ int main(int argc, char* argv[])
 			exec_params->Host_Configuration.IO_Flow_Definitions.push_back(*io_flow_def);
 
 		SSD_Device ssd(&exec_params->SSD_Device_Configuration, &exec_params->Host_Configuration.IO_Flow_Definitions);//Create SSD_Device based on the specified parameters
-		PRINT_MESSAGE("Created SSD Device with total capacity in GB: " << ssd.total_capacity);
+		PRINT_MESSAGE("Created SSD Device with total capacity in gigabytes: " << ssd.total_capacity);
 		exec_params->Host_Configuration.Input_file_path = workload_defs_file_path.substr(0, workload_defs_file_path.find_last_of("."));//Create Host_System based on the specified parameters
 		Host_System host(&exec_params->Host_Configuration, exec_params->SSD_Device_Configuration.Enabled_Preconditioning, ssd.Host_interface);
 		host.Attach_ssd_device(&ssd);
