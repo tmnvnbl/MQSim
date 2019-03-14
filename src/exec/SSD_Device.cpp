@@ -1,6 +1,7 @@
 #include <vector>
 #include <stdexcept>
 #include <ctime>
+#include <math.h>
 #include "SSD_Device.h"
 #include "../ssd/ONFI_Channel_Base.h"
 #include "../ssd/Flash_Block_Manager.h"
@@ -25,6 +26,12 @@ SSD_Device::SSD_Device(Device_Parameter_Set* parameters, std::vector<IO_Flow_Par
 	my_instance = device;//used for static functions
 	Simulator->AddObject(device);
 
+	int log_total_capacity = log2(parameters->Flash_Parameters.Page_Capacity) + log2(parameters->Flash_Parameters.Page_No_Per_Block)
+					+ log2(parameters->Flash_Parameters.Block_No_Per_Plane) + log2(parameters->Flash_Parameters.Plane_No_Per_Die)
+					+ log2(parameters->Flash_Parameters.Die_No_Per_Chip) + log2(parameters->Chip_No_Per_Channel)
+					+ log2(parameters->Flash_Channel_Count);
+	total_capacity = 1 << (log_total_capacity - 30); //2^30 equals 1 GigaByte
+	
 	device->Preconditioning_required = parameters->Enabled_Preconditioning;
 	device->Memory_Type = parameters->Memory_Type;
 
