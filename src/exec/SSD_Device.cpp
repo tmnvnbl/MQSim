@@ -31,7 +31,7 @@ SSD_Device::SSD_Device(Device_Parameter_Set* parameters, std::vector<IO_Flow_Par
 					+ log2(parameters->Flash_Parameters.Die_No_Per_Chip) + log2(parameters->Chip_No_Per_Channel)
 					+ log2(parameters->Flash_Channel_Count);
 	total_capacity = 1 << (log_total_capacity - 30); //2^30 equals 1 GigaByte
-	
+
 	device->Preconditioning_required = parameters->Enabled_Preconditioning;
 	device->Memory_Type = parameters->Memory_Type;
 
@@ -392,6 +392,10 @@ void SSD_Device::Report_results_in_XML(std::string name_prefix, Utils::XmlWriter
 	std::string tmp;
 	tmp = ID();
 	xmlwriter.Write_open_tag(tmp);
+	
+	std::string attr = ID() + ".Capacity_Gigabytes";
+	std::string val = std::to_string(total_capacity);
+	xmlwriter.Write_attribute_string(attr,val);
 
 	this->Host_interface->Report_results_in_XML(ID(), xmlwriter);
 	if (Memory_Type == NVM::NVM_Type::FLASH)
