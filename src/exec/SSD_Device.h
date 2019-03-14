@@ -51,6 +51,7 @@ public:
 
 	unsigned int Channel_count;
 	unsigned int Chip_no_per_channel;
+	unsigned int total_capacity; //total capacity in GB
 
 private:
 	static SSD_Device * my_instance;//Used in static functions
